@@ -11,17 +11,9 @@ version="1.0"
 pidfile=$prog_dir/$name.pid
 logfile=$prog_dir/$name.log
 
-. $prog_dir/config.source
-
 start()
 {
-	$prog_dir/$name.sh \
-	  $remote_server \
-	  $remote_port \
-	  $remote_mountpoint \
-	  $share_name \
-	  $drobo_user \
-	  >> ${logfile} 2>&1 &
+	$prog_dir/$name.sh >> ${logfile} 2>&1 &
 }
 
 case "$1" in
