@@ -1,14 +1,10 @@
 #!/bin/sh
-echo $$ > `dirname \`realpath $0\``reversesshfs.pid
+echo $$ > `dirname \`realpath $0\``/reversesshfs.pid
 
-remote_server=$1
-remote_port=$2
-remote_mountpoint=$3
-share_name=$4
-drobo_user=$5
+. `dirname \`realpath $0\``/config.source
 
 while true ; do
   ssh -R $remote_port:localhost:22 $remote_server \
-    "sshfs -p $remote_port $drobo_user@localhost:/mnt/DroboFS/Shares/$share_name $remote_mountpoint"
+    "sshfs -p $remote_port $extra_args $drobo_user@localhost:/mnt/DroboFS/Shares/$share_name $remote_mountpoint"
   sleep 10
 done
