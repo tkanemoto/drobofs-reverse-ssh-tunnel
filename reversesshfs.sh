@@ -1,5 +1,5 @@
 #!/bin/sh
-echo $$ > reverse-sshfs.pid
+echo $$ > `dirname \`realpath $0\``reversesshfs.pid
 
 remote_server=$1
 remote_port=$2
