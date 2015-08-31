@@ -6,7 +6,7 @@
 
 prog_dir=`dirname \`realpath $0\``
 
-name="reverse-sshfs"
+name="reversesshfs"
 version="1.0"
 pidfile=$prog_dir/$name.pid
 logfile=$prog_dir/$name.log
