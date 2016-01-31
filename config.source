@@ -1,5 +1,0 @@
-remote_server=
-remote_port=14443
-remote_mountpoint=/var/www/share/
-share_name=share
-drobo_user=root

@@ -1,19 +1,30 @@
 #!/bin/sh
 #
-# Reverse SSHFS service 
+# Reverse SSH tunnel service 
 
 . /etc/service.subr
 
 prog_dir=`dirname \`realpath $0\``
+name=`basename $prog_dir`
 
-name="reversesshfs"
 version="1.0"
-pidfile=$prog_dir/$name.pid
-logfile=$prog_dir/$name.log
+export pidfile=$prog_dir/$name.pid
+export logfile=$prog_dir/$name.log
+
+. $prog_dir/config.source
 
 start()
 {
-	$prog_dir/$name.sh >> ${logfile} 2>&1 &
+	$prog_dir/tunnel.sh &
+}
+
+kill_ssh()
+{
+	sshpid=`ps -w | grep "ssh .*:$local_port $remote_server" | grep -v grep | awk '{print $1}'`
+	if [ -n "$sshpid" ] ; then
+		echo "Killing $sshpid"
+		kill $sshpid
+	fi
 }
 
 case "$1" in
@@ -22,9 +33,11 @@ start)
 	;;
 stop)
 	stop_service
+	kill_ssh
 	;;
 restart)
 	stop_service
+	kill_ssh
 	sleep 3
 	start_service
 	;;
