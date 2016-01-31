@@ -15,16 +15,12 @@ export logfile=$prog_dir/$name.log
 
 start()
 {
-	$prog_dir/tunnel.sh &
-}
-
-kill_ssh()
-{
-	sshpid=`ps -w | grep "ssh .*:$local_port $remote_server" | grep -v grep | awk '{print $1}'`
-	if [ -n "$sshpid" ] ; then
-		echo "Killing $sshpid"
-		kill $sshpid
-	fi
+	start-stop-daemon -S \
+		-p $pidfile -m \
+		-b \
+		-v \
+		-x /mnt/DroboFS/Shares/DroboApps/openssh/bin/ssh -- \
+			-vvvv -C -nNT -R $remote_port:localhost:$local_port $remote_server
 }
 
 case "$1" in
@@ -33,11 +29,9 @@ start)
 	;;
 stop)
 	stop_service
-	kill_ssh
 	;;
 restart)
 	stop_service
-	kill_ssh
 	sleep 3
 	start_service
 	;;
