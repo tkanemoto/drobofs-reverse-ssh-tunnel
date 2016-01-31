@@ -1,2 +1,2 @@
 # drobofs-reverse-sshfs-service
-Mounts a DroboFS share on a remote server using reverse SSH tunnel
+Sets up SSH remote port forwarding from a Drobo to a remote server.
